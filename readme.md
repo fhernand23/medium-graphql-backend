@@ -7,22 +7,9 @@
 
 A Graphql server implementation using [Graphene-Django](https://docs.graphene-python.org/projects/django/en/latest/#graphene-django)
 
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/logo.png" height="200" width="400"/>
-
 This codebase was created to demonstrate a fully fledged fullstack application built with Django including CRUD operations, authentication, routing, pagination, and more.
 
 For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
-## Screenshots
-
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/example_images/article_query.png" width="800" height="400"/>
-
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/example_images/add_article.png" width="800" height="400"/>
-
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/example_images/add_comment.png" width="800" height="400"/>
-
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/example_images/get_profile.png" width="800" height="400"/>
-
-<img src="https://raw.githubusercontent.com/ramzitannous/medium-graphql-backend/master/example_images/current_user.png" width="800" height="400"/>
 
 # How it works
 A Graphql Implementation using facebook relay specs
@@ -38,19 +25,89 @@ Full graphql schema can be found at [`schema.graphql`](https://github.com/ramzit
 
 # Getting started
 
-1) Install dependancies
-`poetry install`
+## Requirements
 
+1) PostgreSQL installed locally or docker
+
+## Poetry Env dependencies
+
+1) Install dependencies
+```bash
+poetry install
+```
 2) create `.env` file with this content
-`DEBUG=True ` 
-`SECRET_KEY=test-secret-key`
- `DATABASE_URL=postgresql://postgres:password@localhost:5432/medium`
- 3) run migration
- `poetry run python manage.py migrate`
+```bash
+DEBUG=True
+SECRET_KEY=test-secret-key
+DATABASE_URL=postgresql://postgres:password@localhost:5432/medium
+```
+3) run migration
+```bash
+poetry run python manage.py migrate
+```
 4) run server
-`poetry  run python manage.py runserver 8000`
+```bash
+poetry run python manage.py runserver 8000
+```
 5) open graphql playground using http://localhost:8000/playground
 6) to connect to it via API use http://localhost:8000/graphql
+
+## Conda Env dependencies (alternative env)
+
+1) Create env and install dependencies
+```bash
+conda create -n realworld-graph-django python=3.9
+conda activate realworld-graph-django
+make dev-deps
+```
+2) create `.env` file with this content
+```bash
+DEBUG=True
+SECRET_KEY=test-secret-key
+DATABASE_URL=postgresql://postgres:password@localhost:5432/medium
+```
+3) run migration
+```bash
+python manage.py migrate
+```
+4) run server
+```bash
+python manage.py runserver 8000
+```
+5) open graphql playground using http://localhost:8000/playground
+6) to connect to it via API use http://localhost:8000/graphql
+
+## Test api on Playground
+
+### Query articles 
+```
+{
+  articles(first: 10) {
+    edges {
+      node {
+        id
+        createDate
+        description
+        favorited
+        favoritesCount
+        comments {
+          edges {
+            node {
+              id
+              body
+              createDate
+              author {
+                id
+                username
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 
 ## Third Party Packages
